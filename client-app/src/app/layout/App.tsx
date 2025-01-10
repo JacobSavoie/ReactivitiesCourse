@@ -5,6 +5,7 @@ import { Activity } from '../models/activity';
 import NavBar from './NavBar';
 import ActivityDashboard from '../../features/activities/dashboard/ActivityDashboard';
 import { v4 as uuid } from 'uuid';
+
 function App() {
   const [activities, setActivities] = useState<Activity[]>([]);
   const [selectedActivity, setSelectedActivity] = useState<Activity | undefined>(undefined);
@@ -18,13 +19,16 @@ function App() {
   function handleSelectActivity(id: string) {
     setSelectedActivity(activities.find(x => x.id === id));
   }
-  function handleCancelSelect() {
+  function handleCancelSelectActivity() {
     setSelectedActivity(undefined);
   }
+
   function handleFormOpen(id?: string) {
-    id ? handleSelectActivity(id) : handleCancelSelect();
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+    id ? handleSelectActivity(id) : handleCancelSelectActivity();
     setEditMode(true);
   }
+
   function handleFormClose() {
     setEditMode(false);
   }
@@ -32,6 +36,7 @@ function App() {
     setActivities([...activities.filter(x => x.id !== id)])
   }
   function handleCreateOrEditActivity(activity: Activity) {
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     activity.id
       ? setActivities([...activities.filter(x => x.id !== activity.id), activity])
       : setActivities([...activities, { ...activity, id: uuid() }]);
@@ -46,7 +51,7 @@ function App() {
           activities={activities}
           selectedActivity={selectedActivity}
           selectActivity={handleSelectActivity}
-          cancelSelectActivity={handleCancelSelect}
+          cancelSelectActivity={handleCancelSelectActivity}
           editMode={editMode}
           openForm={handleFormOpen}
           closeForm={handleFormClose}
